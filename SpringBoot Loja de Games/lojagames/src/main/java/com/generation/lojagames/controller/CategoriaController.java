@@ -1,4 +1,4 @@
-package com.generation.zgames.controller;
+package com.generation.lojagames.controller;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.generation.zgames.model.Categoria;
-import com.generation.zgames.repository.CategoriaRepository;
+import com.generation.lojagames.model.Categoria;
+import com.generation.lojagames.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaController {
 

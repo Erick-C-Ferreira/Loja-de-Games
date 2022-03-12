@@ -1,4 +1,4 @@
-package com.generation.zgames.controller;
+package com.generation.lojagames.controller;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.generation.zgames.model.Produto;
-import com.generation.zgames.repository.CategoriaRepository;
-import com.generation.zgames.repository.ProdutoRepository;
+import com.generation.lojagames.model.Produto;
+import com.generation.lojagames.repository.CategoriaRepository;
+import com.generation.lojagames.repository.ProdutoRepository;
 
 @RestController	
-@RequestMapping("/produto")
+@RequestMapping("/produtos")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutoController {
 	
@@ -33,7 +33,7 @@ public class ProdutoController {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Produto>> getAll(){
 		return ResponseEntity.ok(produtoRepository.findAll());
 	}
@@ -52,9 +52,7 @@ public class ProdutoController {
 	@PostMapping
 	public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto){
 		return categoriaRepository.findById(produto.getCategoria().getId())
-				.map(resposta -> {
-					return ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto));
-				})
+				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto)))
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	
@@ -64,9 +62,7 @@ public class ProdutoController {
 		if (produtoRepository.existsById(produto.getId())){
 
 			return categoriaRepository.findById(produto.getCategoria().getId())
-					.map(resposta -> {
-						return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
-					})
+					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto)))
 					.orElse(ResponseEntity.badRequest().build());
 		}		
 		
@@ -97,7 +93,5 @@ public class ProdutoController {
 	@GetMapping("/preco_menor/{preco}")
 	public ResponseEntity<List<Produto>> getPrecoMenorQue(@PathVariable BigDecimal preco){ 
 		return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
-	}
-	
+	}	
 }
-

@@ -1,4 +1,4 @@
-package com.generation.zgames.model;
+package com.generation.lojagames.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
