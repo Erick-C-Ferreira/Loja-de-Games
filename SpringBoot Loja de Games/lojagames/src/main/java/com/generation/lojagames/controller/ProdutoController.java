@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.generation.lojagames.model.Produto;
 import com.generation.lojagames.repository.CategoriaRepository;
 import com.generation.lojagames.repository.ProdutoRepository;
+import com.generation.lojagames.service.ProdutoService;
 
 @RestController	
 @RequestMapping("/produtos")
@@ -32,7 +33,10 @@ public class ProdutoController {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-
+	
+	@Autowired
+	private ProdutoService produtoService;
+	
 	@GetMapping("/all")
 	public ResponseEntity<List<Produto>> getAll(){
 		return ResponseEntity.ok(produtoRepository.findAll());
@@ -94,4 +98,12 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> getPrecoMenorQue(@PathVariable BigDecimal preco){ 
 		return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
 	}	
+	
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Produto> curtirProdutoId(@PathVariable Long id){
+		
+		return produtoService.curtir(id)
+				.map(resposta -> ResponseEntity.ok(resposta))
+				.orElse(ResponseEntity.badRequest().build());
+	}
 }
